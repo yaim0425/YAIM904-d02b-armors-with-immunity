@@ -131,12 +131,18 @@ function This_MOD.get_elements()
             This_MOD.id .. "-" ..
             That_MOD.name .. "-"
 
-        local Processed
-        for _, damage in pairs(This_MOD.damages) do
-            Processed = GMOD.items[Name .. damage] ~= nil
-            if not Processed then break end
+        if
+            (function()
+                for _, damage in pairs(This_MOD.damages) do
+                    if not GMOD.items[Name .. damage] then
+                        return
+                    end
+                end
+                return true
+            end)()
+        then
+            return
         end
-        if Processed then return end
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
