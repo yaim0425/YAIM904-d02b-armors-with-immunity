@@ -496,10 +496,6 @@ function This_MOD.create_recipe(space)
         --- Elimnar propiedades inecesarias
         Recipe.main_product = nil
 
-        --- Productividad
-        Recipe.allow_productivity = true
-        Recipe.maximum_productivity = 1000000
-
         --- Agregar indicador del MOD
         Recipe.icons = GMOD.copy(space.item.icons)
         table.insert(Recipe.icons, This_MOD.indicator_bg)
