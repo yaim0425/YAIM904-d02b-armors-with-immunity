@@ -31,7 +31,6 @@ function This_MOD.start()
             --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
             --- Crear los elementos
-            This_MOD.create_subgroup(space)
             This_MOD.create_item(space)
             This_MOD.create_recipe(space)
             This_MOD.create_tech(space)
@@ -39,6 +38,9 @@ function This_MOD.start()
             --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         end
     end
+
+    --- Fijar las posiciones actual
+    GMOD.d00b.change_orders()
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
@@ -131,12 +133,18 @@ function This_MOD.get_elements()
             This_MOD.id .. "-" ..
             That_MOD.name .. "-"
 
-        local Processed
-        for _, damage in pairs(This_MOD.damages) do
-            Processed = GMOD.items[Name .. damage] ~= nil
-            if not Processed then break end
+        if
+            (function()
+                for _, damage in pairs(This_MOD.damages) do
+                    if not GMOD.items[Name .. damage] then
+                        return
+                    end
+                end
+                return true
+            end)()
+        then
+            return
         end
-        if Processed then return end
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -200,30 +208,6 @@ end
 
 ---------------------------------------------------------------------------
 
-function This_MOD.create_subgroup(space)
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-    --- Validación
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    if not space.item then return end
-
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-
-
-
-
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-    --- Crear un nuevo subgrupo
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-
-    local Old = space.item.subgroup
-    local New = space.subgroup
-    GMOD.duplicate_subgroup(Old, New)
-
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-end
-
 function This_MOD.create_item(space)
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     --- Validación
@@ -256,7 +240,7 @@ function This_MOD.create_item(space)
                 i or #This_MOD.damages + 1
             ) .. "0"
 
-        --- Renombrar
+        --- Buscar el nombre
         local Item = GMOD.items[Name]
 
         --- Existe
@@ -326,6 +310,18 @@ function This_MOD.create_item(space)
                 'local character = game.surfaces[1].create_entity{name = "character", position = {0.5, 0.5}, force = "player", direction = defines.direction.south}' ..
                 'character.insert{name = "' .. Name .. '"}'
         }
+
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+
+
+
+
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- Crear el subgrupo para el objeto
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
+        GMOD.duplicate_subgroup(space.item.subgroup, Item.subgroup)
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -440,7 +436,7 @@ function This_MOD.create_recipe(space)
                 i or #This_MOD.damages + 1
             ) .. "0"
 
-        --- Renombrar
+        --- Buscar el nombre
         local Recipe = data.raw.recipe[Name]
 
         --- Existe
@@ -489,10 +485,6 @@ function This_MOD.create_recipe(space)
 
         --- Elimnar propiedades inecesarias
         Recipe.main_product = nil
-
-        --- Productividad
-        Recipe.allow_productivity = true
-        Recipe.maximum_productivity = 1000000
 
         --- Agregar indicador del MOD
         Recipe.icons = GMOD.copy(space.item.icons)
@@ -630,7 +622,7 @@ function This_MOD.create_tech(space)
         --- Nombre a usar
         local Name = space.name .. (damage or "all") .. "-tech"
 
-        --- Renombrar
+        --- Buscar el nombre
         local Tech = data.raw.technology[Name]
 
         --- Existe

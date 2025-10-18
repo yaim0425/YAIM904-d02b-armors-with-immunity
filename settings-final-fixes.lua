@@ -94,6 +94,14 @@ if mods["space-age"] then
     table.insert(Armor_base.allowed_values, "mech-armor")
 end
 
+--- Space Exploration
+if mods["space-exploration"] then
+    table.insert(Armor_base.allowed_values, "se-thruster-suit")
+    table.insert(Armor_base.allowed_values, "se-thruster-suit-2")
+    table.insert(Armor_base.allowed_values, "se-thruster-suit-3")
+    table.insert(Armor_base.allowed_values, "se-thruster-suit-4")
+end
+
 ---------------------------------------------------------------------------------------------------
 
 
