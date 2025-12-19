@@ -53,6 +53,6 @@ No configuration or scripting is required from the player.
 
 ---
 
-## ❤️ Support
+## ❤️ Support 
 
 Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
