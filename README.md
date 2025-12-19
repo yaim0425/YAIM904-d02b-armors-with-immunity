@@ -52,3 +52,7 @@ No configuration or scripting is required from the player.
 ![Screenshot 4](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(4).png)
 
 ---
+
+## ❤️ Support
+
+Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
