@@ -37,7 +37,18 @@ No configuration or scripting is required from the player.
 
 ## 🔗 Repository
 
-* GitHub: [https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity)
+**MOD**
+[YAIM0425 d02b Armors with immunity](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity)
+
+**Required**
+
+[YAIM0425 d00b Core](https://github.com/yaim0425/YAIM0425-d00b-core)
+
+---
+
+## ❤️ Support
+
+Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
 
 ---
 
@@ -50,9 +61,3 @@ No configuration or scripting is required from the player.
 ![Screenshot 3](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(3).png)
 
 ![Screenshot 4](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(4).png)
-
----
-
-## ❤️ Support
-
-Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
