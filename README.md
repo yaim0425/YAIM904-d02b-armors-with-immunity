@@ -1,8 +1,8 @@
-# YAIM0425 d02b – Armors with Immunity 🛡️
+# YAIM904 d02b – Armors with Immunity 🛡️
 
 ## 📦 Description
 
-**YAIM0425 d02b – Armors with Immunity** adds new special armors to Factorio that grant the player **damage immunities**.
+**YAIM904 d02b – Armors with Immunity** adds new special armors to Factorio that grant the player **damage immunities**.
 
 This MOD introduces:
 
@@ -38,11 +38,11 @@ No configuration or scripting is required from the player.
 ## 🔗 Repository
 
 **MOD**
-[YAIM0425 d02b Armors with immunity](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity)
+[YAIM904 d02b Armors with immunity](https://github.com/yaim0425/YAIM904-d02b-armors-with-immunity)
 
 **Required**
 
-[YAIM0425 d00b Core](https://github.com/yaim0425/YAIM0425-d00b-core)
+[YAIM904 d00b Core](https://github.com/yaim0425/YAIM904-d00b-core)
 
 ---
 
@@ -54,10 +54,10 @@ Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
 
 ## 🖼️ Screenshots
 
-![Screenshot 1](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(1).png)
+![Screenshot 1](https://github.com/yaim0425/YAIM904-d02b-armors-with-immunity/raw/code/screenshot/(1).png)
 
-![Screenshot 2](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(2).png)
+![Screenshot 2](https://github.com/yaim0425/YAIM904-d02b-armors-with-immunity/raw/code/screenshot/(2).png)
 
-![Screenshot 3](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(3).png)
+![Screenshot 3](https://github.com/yaim0425/YAIM904-d02b-armors-with-immunity/raw/code/screenshot/(3).png)
 
-![Screenshot 4](https://github.com/yaim0425/YAIM0425-d02b-armors-with-immunity/raw/code/screenshot/(4).png)
+![Screenshot 4](https://github.com/yaim0425/YAIM904-d02b-armors-with-immunity/raw/code/screenshot/(4).png)
