@@ -1,5 +1,7 @@
 # YAIM904 d02b – Armors with Immunity 🛡️
 
+---
+
 ## 📦 Description
 
 **YAIM904 d02b – Armors with Immunity** adds new special armors to Factorio that grant the player **damage immunities**.
@@ -48,7 +50,7 @@ No configuration or scripting is required from the player.
 
 ## ❤️ Support
 
-Suggestions, ideas, and balance feedback are welcome on the GitHub repository.
+Suggestions, ideas and balance feedback are welcome on the GitHub repository.
 
 ---
 
