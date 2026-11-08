@@ -28,19 +28,16 @@ function This_MOD.start()
     --- Modificar los elementos
     for _, spaces in pairs(This_MOD.to_be_processed) do
         for _, space in pairs(spaces) do
-            --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+            --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
             --- Crear los elementos
             This_MOD.create_item(space)
             This_MOD.create_recipe(space)
             This_MOD.create_tech(space)
 
-            --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+            --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         end
     end
-
-    --- Fijar las posiciones actual
-    GMOD.d00b.change_orders()
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
@@ -136,7 +133,7 @@ function This_MOD.get_elements()
         if
             (function()
                 for _, damage in pairs(This_MOD.damages) do
-                    if not GMOD.items[Name .. damage] then
+                    if not GMOD.item[Name .. damage] then
                         return
                     end
                 end
@@ -157,12 +154,17 @@ function This_MOD.get_elements()
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
         local Space = {}
-        Space.item = item
         Space.name = Name
+        Space.item = item
 
         Space.recipe = GMOD.recipes[item.name]
         Space.tech = GMOD.get_technology(Space.recipe, true)
+
         Space.recipe = Space.recipe and Space.recipe[1] or nil
+
+        for key, value in pairs(Space) do
+            Space[key] = GMOD.copy_with_format(value)
+        end
 
         Space.subgroup =
             GMOD.name ..
@@ -173,7 +175,7 @@ function This_MOD.get_elements()
             This_MOD.id .. "-" ..
             That_MOD.name
 
-        Space.digits = 1 + GMOD.digit_count(#This_MOD.damages + 1)
+        Space.digits = GMOD.digit_count(#This_MOD.damages + 1)
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -201,7 +203,7 @@ function This_MOD.get_elements()
     --- Preparar los datos a usar
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-    validate_armor(GMOD.items[This_MOD.setting.armor_base])
+    validate_armor(GMOD.item[This_MOD.setting.armor_base])
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 end
@@ -238,10 +240,10 @@ function This_MOD.create_item(space)
             GMOD.pad_left_zeros(
                 space.digits,
                 i or #This_MOD.damages + 1
-            ) .. "0"
+            )
 
         --- Buscar el nombre
-        local Item = GMOD.items[Name]
+        local Item = GMOD.item[Name]
 
         --- Existe
         if Item then
@@ -275,7 +277,6 @@ function This_MOD.create_item(space)
         Item.name = Name
 
         --- Apodo y descripción
-        Item.localised_name = GMOD.copy(space.item.localised_name)
         table.insert(Item.localised_name, " - ")
         table.insert(Item.localised_name,
             damage and
@@ -321,7 +322,18 @@ function This_MOD.create_item(space)
         --- Crear el subgrupo para el objeto
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-        GMOD.duplicate_subgroup(space.item.subgroup, Item.subgroup)
+        --- Duplicar el subgrupo
+        if not GMOD.subgroups[Item.subgroup] then
+            GMOD.duplicate_subgroup(space.item.subgroup, Item.subgroup)
+
+            --- Renombrar
+            local Subgroup = GMOD.subgroups[Item.subgroup]
+            local oldOrder = GMOD.subgroups[space.item.subgroup].order or ""
+            oldOrder = GMOD.delete_prefix(oldOrder)
+
+            --- Actualizar el order
+            Subgroup.order = oldOrder .. "-02"
+        end
 
         --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -471,7 +483,7 @@ function This_MOD.create_recipe(space)
         Recipe.name = Name
 
         --- Apodo y descripción
-        Recipe.localised_name = GMOD.copy(space.item.localised_name)
+        -- Recipe.localised_name = GMOD.copy(space.item.localised_name)
         table.insert(Recipe.localised_name, " - ")
         table.insert(Recipe.localised_name,
             damage and
@@ -615,9 +627,9 @@ function This_MOD.create_tech(space)
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
     local function one(damage)
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         --- Validación
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
         --- Nombre a usar
         local Name = space.name .. (damage or "all") .. "-tech"
@@ -630,15 +642,15 @@ function This_MOD.create_tech(space)
             return Tech
         end
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 
 
 
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         --- Duplicar el elemento
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
         Tech = GMOD.copy(space.tech)
 
@@ -648,15 +660,15 @@ function This_MOD.create_tech(space)
 
 
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         --- Cambiar algunas propiedades
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
         --- Nombre
         Tech.name = Name
 
         --- Apodo y descripción
-        Tech.localised_name = GMOD.copy(space.item.localised_name)
+        -- Tech.localised_name = GMOD.copy(space.item.localised_name)
         table.insert(Tech.localised_name, " - ")
         table.insert(Tech.localised_name,
             damage and
@@ -695,20 +707,20 @@ function This_MOD.create_tech(space)
             }
         end
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 
 
 
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
         --- Crear el prototipo
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
         GMOD.extend(Tech)
         return Tech
 
-        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+        --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     end
 
     --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
